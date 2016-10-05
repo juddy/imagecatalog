@@ -13,7 +13,7 @@
 #
 ################################################################
 
-#set -x
+set -x
 #umask 022
 
 TEXT2GIF=$(which text2gif)
@@ -25,12 +25,12 @@ else
     echo "Using system 'text2gif' - $TEXT2GIF"
 fi
 
-
 get_jpegs(){
-        
         # Create a list of images to process
-        find ./ -iname *.JP?G > jpegs.$$
+
+	find ./ -iname "*.JPG" -o -name "*.jp?g"|  sed "s|^\./\/||" > jpegs.$$
 }
+
 
 write_patterns(){
 # Check and create pattern matching file
@@ -128,16 +128,14 @@ close_stub(){
 
 
 make_entry(){
-
 #HTML
 #generate html
 echo "Making web entry..."
+echo '<hr noshade="noshade" "height: 8px; width: 500px; margin-left: 0px; margin-right: auto;"> <img  alt="'$img'" src="IMG/'$img'_nametag.gif"><br> <a href=FULL/'$img' border=0 target=blank> <img src="IMG/'$img'_thumb.png"></a> <br> <img  src="IMG/'$img'_date.gif"><br> <img  alt="$(cat DAT/'$img'_ident-v.outr)" src="./IMG/'$img'_ident-v.gif"><br> <hr noshade="noshade" style="height: 8px; width: 600px ; margin-left: 0px; margin-right: auto;">' >> index.htm
 
-echo '<hr noshade="noshade" "height: 8px; width: 500px; margin-left: 0px; margin-right: auto;"> <img  alt="'$img'" src="IMG/'$img'_nametag.gif"><br> <a href=FULL/'$img' border=0 target=blank> <img src="IMG/'$img'_thumb.png"></a> <br> <img  src="IMG/'$img'_date.gif"><br> <img  alt="`cat DAT/'$img'_ident-v.out`" src="./IMG/'$img'_ident-v.gif"><br> <hr noshade="noshade" style="height: 8px; width: 600px ; margin-left: 0px; margin-right: auto;">' >> index.htm
-
-            for piece in $(find ./IMG/$img-$$/ -name "*.gif")
+            for stat in $(find ./IMG/$img-$$/ -name "*.gif")
             do
-               echo '<img  src="'$piece'"><br>' >> index.htm
+               echo '<img  src="'$stat'"><br>' >> index.htm
             done
 
         echo '<hr noshade="noshade" style="height: 8px; width: 600px; margin-left: 0px; margin-right: auto;">
@@ -148,14 +146,14 @@ echo '<hr noshade="noshade" "height: 8px; width: 500px; margin-left: 0px; margin
 
 process_jpegs(){
 
-#for img in *jpg 
 while read img
 do
-        gethead
-        getid
+        # Run the functions
+        echo 'Converting' "$img" '...'
+        get_head
+        get_id
         create_dat
         make_thumb
-
 
         # Processed - now move to the archive directory
         echo "Moving full size image $img into FULL"
@@ -163,27 +161,36 @@ do
 
         echo "Generating tags and labels..."
 
-                $TEXT2GIF -t "$(cat DAT/"$img"_ident.out)" -c 180 180 180 > IMG/"$img"_ident.gif
+                $TEXT2GIF -f 255 -t "$(cat DAT/"$img"_ident.out)" -c 180 180 180 > IMG/"$img"_ident.gif
 
-                #what the hell is a piece?
-                piece="1"
+                #a 'stat' is one line of the ident-v description from the EXIF tags
+                stat="1"
 
                 mkdir IMG/$img-$$
                 while read line
                 do
                     echo $line
-                    $TEXT2GIF -t "$line" -c 180 180 180 > ./IMG/$img-$$/"$img"_ident-v-$piece.gif
-                    piece=$(expr $piece + 1)
+                    $TEXT2GIF -f 255 -t "$line" -c 180 180 180 > ./IMG/$img-$$/"$img"_ident-v-$stat.gif
+                    stat=$(expr $stat + 1)
 
                 done < DAT/"$img"_ident-v.out
 
-                $TEXT2GIF -t "`cat DAT/"$img"_ident.out`" -c 180 180 180 > IMG/"$img"_ident.gif
-                $TEXT2GIF -t "`cat DAT/"$img"_date.out`" -c 200 200 200 > IMG/"$img"_date.gif
-                $TEXT2GIF -t "`echo "$img"`" -c 255 168 0 > IMG/"$img"_nametag.gif
+                $TEXT2GIF -f 255 -t "$(cat DAT/"$img"_ident.out)" -c 180 180 180 > IMG/"$img"_ident.gif
+                $TEXT2GIF -f 255 -t "$(cat DAT/"$img"_date.out)" -c 200 200 200 > IMG/"$img"_date.gif
+                $TEXT2GIF -f 255 -t "$(echo "$img")" -c 255 168 0 > IMG/"$img"_nametag.gif
 
-            echo 'Converting' "$img" '...'
-            
-#Complete loop
+	# Write the entry; label, tag, date, thumb
+	make_entry
+
 done < jpegs.$$
+}
+
+get_jpegs
+
+write_stub
+
+process_jpegs
 
 close_stub
+
+echo "----> index.htm"
