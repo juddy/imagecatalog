@@ -78,4 +78,4 @@ imagecatalog.sh leaves text files containing various attributes in the DAT and T
 ----
 ##Screenshot
 
-![screenshot.png]
+![](screenshot.png)

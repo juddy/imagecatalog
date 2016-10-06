@@ -1,9 +1,0 @@
-This is a horrible old hack to create an HTML doc from a set of JPEGs
-
-It uses 'identify' to snarf out the JPEG attributes.
-
-These are dumped to a 'DAT' file.
-
-The resulting DAT file is read by 'text2gif' to generate tags for the images.
-
-Use at your own peril.
