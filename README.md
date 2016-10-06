@@ -1,5 +1,7 @@
 This is refactoring of a horrible old hack to create an HTML doc from a set of JPEGs
 
+:shit:
+
 It uses 'identify' to snarf out the JPEG attributes.
 
 These are dumped to a 'DAT' file.
@@ -21,7 +23,7 @@ Mac:
     
 Linux:
 
-    [apt|yum] install text2gif imagemagick
+    [apt|yum] install giflib-tools imagemagick
 
 ----
 #Usage
@@ -30,6 +32,7 @@ Linux:
 2. Add JPEG images to the 'imagecatalog' directory for processing, or copy imagecatalog.sh to a directory containing JPEGs.
 3. ./imagecatalog.sh
 4. Review the resuling **index.htm** file
+5: Serve.
 
 ----
 
@@ -38,4 +41,41 @@ imagecatalog.sh leaves text files containing various attributes in the DAT and T
 
 'FULL' directory contains the full-sized image, linked from the thumbnail.
 
+----
+# Example
 
+**Output**
+
+	me@debian:~/Code/imagecatalog$ ./imagecatalog.sh
+	Using system 'text2gif' - /usr/bin/text2gif
+	Stubbing...
+	Converting ornaments.jpg ...
+	Grabbing 128 bytes from ornaments.jpg
+	Identifying ornaments.jpg
+	Creating dat file for ornaments.jpg
+	Creating thumb for ornaments.jpg
+	Moving full size image ornaments.jpg into FULL
+	Generating tags and labels...
+	Image: ornaments.jpg
+	Format: JPEG (Joint Photographic Experts Group JFIF format)
+	Geometry: 3072x2048+0+0
+	Resolution: 72x72
+	Units: PixelsPerInch
+	Colorspace: sRGB
+	Image statistics:
+	Compression: JPEG
+	Quality: 93
+	Orientation: TopLeft
+	exif:ExifImageLength: 2048
+	exif:ExifImageWidth: 3072
+	exif:Make: Canon
+	exif:Model: Canon EOS 10D
+	Tainted: False
+	Filesize: 1.319MB
+	Making web entry...
+	----> index.htm
+
+----
+##Screenshot
+
+![screenshot.png]
