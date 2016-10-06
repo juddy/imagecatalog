@@ -13,7 +13,7 @@
 #
 ################################################################
 
-set -x
+#set -x
 #umask 022
 
 TEXT2GIF=$(which text2gif)
@@ -27,8 +27,7 @@ fi
 
 get_jpegs(){
         # Create a list of images to process
-
-	find ./ -iname "*.JPG" -o -name "*.jp?g"|  sed "s|^\./\/||" > jpegs.$$
+	find ./ -iname "*.JPG" -o -name "*.jp?g" | sed 's/^\.\///' > jpegs.$$
 }
 
 
@@ -131,7 +130,13 @@ make_entry(){
 #HTML
 #generate html
 echo "Making web entry..."
-echo '<hr noshade="noshade" "height: 8px; width: 500px; margin-left: 0px; margin-right: auto;"> <img  alt="'$img'" src="IMG/'$img'_nametag.gif"><br> <a href=FULL/'$img' border=0 target=blank> <img src="IMG/'$img'_thumb.png"></a> <br> <img  src="IMG/'$img'_date.gif"><br> <img  alt="$(cat DAT/'$img'_ident-v.outr)" src="./IMG/'$img'_ident-v.gif"><br> <hr noshade="noshade" style="height: 8px; width: 600px ; margin-left: 0px; margin-right: auto;">' >> index.htm
+echo '<hr noshade="noshade" "height: 8px; width: 500px; margin-left: 0px; margin-right: auto;">\
+       	<img alt="'$img'" src="IMG/'$img'_nametag.gif"><br>\
+       	<a href=FULL/'$img' border=0 target=blank>\
+       	<img src="IMG/'$img'_thumb.png"></a> <br>\
+       	<img  src="IMG/'$img'_date.gif"><br>\
+       	<img  alt='$(cat DAT/"$img"_ident-v.out)' src=IMG/'$img'_ident.gif><br>\
+       	<hr noshade="noshade" style="height: 8px; width: 600px ; margin-left: 0px; margin-right: auto;">' >> index.htm
 
             for stat in $(find ./IMG/$img-$$/ -name "*.gif")
             do
