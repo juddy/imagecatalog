@@ -31,7 +31,7 @@ Linux:
 3. ./imagecatalog.sh
 4. Review the resuling **index.htm** file
 4a. Reset the directory contents with 'reset.sh'
-5: Serve
+5. Serve
 
 ----
 # Customizing
@@ -55,9 +55,8 @@ Exif metadata patterns are defined in 'patterns'. They are passed to '[identify]
 - Signature
 - Tainted
 
-Add your own tag to 'pattern' and.
-
-
+Add your own tag to 'pattern' and run imagecatalog.sh.
+----
 #Detritus
 imagecatalog.sh leaves text files containing various attributes in the DAT and TAG subdirectories. These attributes are rendered as GIFs inline with the image.
 
