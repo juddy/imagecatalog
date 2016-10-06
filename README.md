@@ -1,6 +1,4 @@
-This is refactoring of a horrible old hack to create an HTML doc from a set of JPEGs
-
-:shit:
+This is refactoring of a horrible old hack to create an HTML doc from a set of JPEGs :shit:
 
 It uses 'identify' to snarf out the JPEG attributes.
 
@@ -32,9 +30,33 @@ Linux:
 2. Add JPEG images to the 'imagecatalog' directory for processing, or copy imagecatalog.sh to a directory containing JPEGs.
 3. ./imagecatalog.sh
 4. Review the resuling **index.htm** file
-5: Serve.
+4a. Reset the directory contents with 'reset.sh'
+5: Serve
 
 ----
+# Customizing
+
+Exif metadata patterns are defined in 'patterns'. They are passed to '[identify](http://www.imagemagick.org/Usage/photos/#exif)' in a loop, capturing the details in a text file under the DAT directory. This file is iterated through when creating labels ('ident'  stats)
+
+- Image
+- Make
+- Model
+- Format
+- Make
+- Model
+- Geometry
+- Colorspace
+- Resolution
+- Units
+- Filesize
+- Compression
+- Quality
+- Orientation
+- Signature
+- Tainted
+
+Add your own tag to 'pattern' and.
+
 
 #Detritus
 imagecatalog.sh leaves text files containing various attributes in the DAT and TAG subdirectories. These attributes are rendered as GIFs inline with the image.
@@ -79,3 +101,4 @@ imagecatalog.sh leaves text files containing various attributes in the DAT and T
 ##Screenshot
 
 ![](screenshot.png)
+
