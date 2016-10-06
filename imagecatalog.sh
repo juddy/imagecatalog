@@ -80,7 +80,7 @@ cat > index.htm << EOF
       </head>
       <body "color: rgb(0, 0, 0); background-color: rgb(0, 0, 0);"
        alink="#000099" link="#989499" vlink="#989499">
-       <img style="width: 468px; height: 60px;" alt="" src="http://juddy.org/juddy.org.gif"><br>
+       <img alt="image catalog" src="imagecatalog.gif"><br>
        <br>
        <br>
        <!-- stub ends here -->
